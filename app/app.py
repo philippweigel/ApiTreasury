@@ -143,7 +143,7 @@ def import_data_api():
 @app.route("/import-data-xml")
 def import_data_xml():
     data = db.get_data_raw()
-    XmlHandler.create_sample_camt053_data(data)
+    XmlHandler.create_sample_camt053_data(data["data_raw"])
     return db.import_transactions_from_camt053()
 
 
