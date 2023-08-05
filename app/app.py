@@ -137,7 +137,7 @@ def add_data_raw():
 @app.route("/import-data-api")
 def import_data_api():
     return import_data_from_api_to_db(
-        "api-treasury.onrender.com/import-data-api", "transactions_api"
+        "http://api-treasury.onrender.com/data-raw", "transactions_api"
     )
 
 
