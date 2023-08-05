@@ -27,7 +27,7 @@ class BankDatabase:
 
     def create_tables(self):
         # Read SQL statements from the file
-        sql_statements = self.read_sql_from_file("app/create_tables.sql")
+        sql_statements = self.read_sql_from_file("create_tables.sql")
 
         # Execute the SQL statements
         with self.connection:

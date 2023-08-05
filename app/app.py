@@ -16,6 +16,8 @@ def load_configurations(app):
 
 app = Flask(__name__)
 load_configurations(app)
+db = BankDatabase()
+db.initialize()
 
 
 # Statements related routes and functions
@@ -42,6 +44,7 @@ def get_transactions():
     transactions = db.execute_query("SELECT * FROM transactions")
     return jsonify({"transactions": transactions})
 
+
 # Transactions related routes and functions
 @app.route("/transactions-api")
 def get_transactions_api():
@@ -54,7 +57,6 @@ def get_transactions_api():
 def get_transactions_xml():
     transactions = db.execute_query("SELECT * FROM transactions_xml")
     return jsonify({"transactions": transactions})
-
 
 
 # data_raw related routes and functions
