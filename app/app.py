@@ -16,9 +16,6 @@ def load_configurations(app):
 
 app = Flask(__name__)
 load_configurations(app)
-db = BankDatabase()
-db.initialize()
-
 
 # Statements related routes and functions
 @app.route("/statements")
