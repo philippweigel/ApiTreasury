@@ -17,14 +17,10 @@ def load_configurations(app):
 app = Flask(__name__)
 load_configurations(app)
 
-
-# Initialize the database command
-@app.cli.command("initdb")
-def init_db_command():
-    """Initialize the database."""
+# Initialize the database
+with app.app_context():
     db = BankDatabase()
     db.initialize()
-    print("Database initialized successfully.")
 
 
 # Statements related routes and functions
