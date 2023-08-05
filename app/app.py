@@ -16,6 +16,9 @@ def load_configurations(app):
 
 app = Flask(__name__)
 load_configurations(app)
+db = BankDatabase()
+db.initialize()
+
 
 # Statements related routes and functions
 @app.route("/statements")
@@ -142,8 +145,8 @@ def import_data_xml():
 
 
 if __name__ == "__main__":
-    with app.app_context():
-        db = BankDatabase()
-        db.initialize()
+    # with app.app_context():
+    #     db = BankDatabase()
+    #     db.initialize()
 
     app.run(debug=False)
