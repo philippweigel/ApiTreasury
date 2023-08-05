@@ -136,7 +136,7 @@ def add_data_raw():
 
 @app.route("/import-data-api")
 def import_data_api():
-    data = get_data_raw()
+    data = db.get_data_raw()
     return import_data_from_api_to_db(data, "transactions_api")
 
 
