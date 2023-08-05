@@ -18,7 +18,7 @@ class BankDatabase:
             password=current_app.config["DATABASE_PASSWORD"],
             host=current_app.config["DATABASE_HOST"],
             port=current_app.config["DATABASE_PORT"],
-            sslmode="require", 
+            sslmode="require",
         )
 
     def read_sql_from_file(self, file_path):
@@ -80,7 +80,7 @@ class BankDatabase:
             item["entry_amount"] = str(item["entry_amount"])
             item["closing_balance"] = str(item["closing_balance"])
 
-        return data_raw
+        return {"data_raw": data_raw}
 
     def import_transactions_from_camt053(self):
         processed_dir = "data/processed/"
