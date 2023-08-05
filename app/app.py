@@ -149,16 +149,16 @@ def import_data_xml():
 
 def import_data_from_api_to_db(data, table_name):
     try:
-        # # Fetch data from the API
-        # response = requests.get(api_url)
-        # response.raise_for_status()
+        # Check if data is a dictionary, if not raise an error
+        if not isinstance(data, dict):
+            raise ValueError("Expected data to be a dictionary")
 
-        # # Parse the JSON data
-        # data = response.json()
+        # Extract the "data_raw" key from the dictionary
+        data = data["data_raw"]
 
         # Check if data is a list, if not convert it to list
-        if not isinstance(data["data_raw"], list):
-            data["data_raw"] = [data["data_raw"]]
+        if not isinstance(data, list):
+            data = [data]
 
         # Prepare the column names for the SQL query
         columns = "statement_id, creation_date_time, entry_amount, credit_debit_indicator, account_service_ref, currency"
@@ -167,7 +167,7 @@ def import_data_from_api_to_db(data, table_name):
         num_columns = len(columns.split(", "))
 
         # Iterate over each record in the data
-        for record in data["data_raw"]:
+        for record in data:
             # Ensure record is dictionary
             if not isinstance(record, dict):
                 raise ValueError("Expected record to be a dictionary")
