@@ -2,7 +2,6 @@ from flask import Flask, jsonify, request
 from bank_database import BankDatabase
 import os
 from dotenv import load_dotenv
-
 from xml_handler import XmlHandler
 
 
