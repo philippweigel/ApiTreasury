@@ -136,9 +136,8 @@ def add_data_raw():
 
 @app.route("/import-data-api")
 def import_data_api():
-    return import_data_from_api_to_db(
-        "https://api-treasury.onrender.com/data-raw", "transactions_api"
-    )
+    data = get_data_raw()
+    return import_data_from_api_to_db(data, "transactions_api")
 
 
 @app.route("/import-data-xml")
@@ -148,14 +147,14 @@ def import_data_xml():
     return db.import_transactions_from_camt053()
 
 
-def import_data_from_api_to_db(api_url, table_name):
+def import_data_from_api_to_db(data, table_name):
     try:
-        # Fetch data from the API
-        response = requests.get(api_url)
-        response.raise_for_status()
+        # # Fetch data from the API
+        # response = requests.get(api_url)
+        # response.raise_for_status()
 
-        # Parse the JSON data
-        data = response.json()
+        # # Parse the JSON data
+        # data = response.json()
 
         # Check if data is a list, if not convert it to list
         if not isinstance(data["data_raw"], list):
