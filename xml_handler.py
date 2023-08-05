@@ -6,43 +6,6 @@ class XmlHandler:
     def __init__(self) -> None:
         pass
 
-    # def create_sample_camt053(self):
-    #     root = ET.Element(
-    #         "Document", xmlns="urn:iso:std:iso:20022:tech:xsd:camt.053.001.02"
-    #     )
-    #     b2c_statement = ET.SubElement(root, "BkToCstmrStmt")
-    #     statement = ET.SubElement(b2c_statement, "Stmt")
-
-    #     # Adding ID and Creation Date Time
-    #     ET.SubElement(statement, "Id").text = "ABC123456"
-    #     ET.SubElement(statement, "CreDtTm").text = "2023-08-03T12:34:56Z"
-
-    #     # Adding Opening Balance
-    #     opening_balance = ET.SubElement(statement, "Bal")
-    #     opening_balance_type = ET.SubElement(opening_balance, "Tp")
-    #     ET.SubElement(opening_balance_type, "CdOrPrtry").text = "OPNG"
-    #     ET.SubElement(opening_balance, "Amt", Ccy="USD").text = "1000.00"
-
-    #     # Adding transaction details
-    #     entry = ET.SubElement(statement, "Ntry")
-    #     ET.SubElement(entry, "Amt", Ccy="USD").text = "100.00"
-    #     ET.SubElement(entry, "CdtDbtInd").text = "CRDT"
-    #     transaction_details = ET.SubElement(entry, "NtryDtls")
-
-    #     transaction = ET.SubElement(transaction_details, "TxDtls")
-    #     ET.SubElement(transaction, "Refs", AcctSvcrRef="12345")
-
-    #     # Adding Closing Balance
-    #     closing_balance = ET.SubElement(statement, "Bal")
-    #     closing_balance_type = ET.SubElement(closing_balance, "Tp")
-    #     ET.SubElement(closing_balance_type, "CdOrPrtry").text = "CLSG"
-    #     ET.SubElement(closing_balance, "Amt", Ccy="USD").text = "1100.00"
-
-    #     # Creating XML file
-    #     tree = ET.ElementTree(root)
-    #     with open("data/sample_camt053.xml", "wb") as file:
-    #         tree.write(file)
-
     def create_sample_camt053_data(data_list):
         # Root element
         root = ET.Element(
