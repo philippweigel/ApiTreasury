@@ -6,7 +6,6 @@ import xml.etree.ElementTree as ET
 import shutil
 
 
-
 class BankDatabase:
     def __init__(self):
         self.connection = self.create_connection()
@@ -19,6 +18,7 @@ class BankDatabase:
             password=current_app.config["DATABASE_PASSWORD"],
             host=current_app.config["DATABASE_HOST"],
             port=current_app.config["DATABASE_PORT"],
+            sslmode="require", 
         )
 
     def read_sql_from_file(self, file_path):
@@ -139,5 +139,3 @@ class BankDatabase:
             shutil.move(filepath, os.path.join(processed_dir, filename))
 
         return jsonify({"message": "Data imported successfully!"}), 200
-
-   
