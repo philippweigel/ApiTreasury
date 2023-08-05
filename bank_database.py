@@ -4,7 +4,7 @@ import os
 from xml_handler import XmlHandler
 import xml.etree.ElementTree as ET
 import shutil
-import requests
+
 
 
 class BankDatabase:
@@ -140,59 +140,4 @@ class BankDatabase:
 
         return jsonify({"message": "Data imported successfully!"}), 200
 
-    def import_data_from_api_to_db(api_url, table_name):
-        try:
-            # Fetch data from the API
-            response = requests.get(api_url)
-            response.raise_for_status()
-
-            # Parse the JSON data
-            data = response.json()
-
-            # Check if data is a list, if not convert it to list
-            if not isinstance(data["data_raw"], list):
-                data["data_raw"] = [data["data_raw"]]
-
-            # Prepare the column names for the SQL query
-            columns = "statement_id, creation_date_time, entry_amount, credit_debit_indicator, account_service_ref, currency"
-
-            # Count the number of columns in the table
-            num_columns = len(columns.split(", "))
-
-            # Iterate over each record in the data
-            for record in data["data_raw"]:
-                # Ensure record is dictionary
-                if not isinstance(record, dict):
-                    raise ValueError("Expected record to be a dictionary")
-
-                # Prepare a SQL INSERT statement
-                placeholders = ", ".join(["%s"] * num_columns)
-                sql = "INSERT INTO %s ( %s ) VALUES ( %s )" % (
-                    table_name,
-                    columns,
-                    placeholders,
-                )
-
-                # Create a tuple of values in the order they appear in the SQL query
-                values = (
-                    record.get("statement_id"),
-                    record.get("creation_date_time"),
-                    record.get("entry_amount"),
-                    record.get("credit_debit_indicator"),
-                    record.get("account_service_ref"),
-                    record.get("currency"),
-                )
-                print(values)
-                # Execute the SQL statement
-                try:
-                    db.execute_query(sql, values, commit=True)
-                except Exception as e:
-                    print(f"Failed to insert record {values}. Error: {e}")
-                    continue
-
-            return jsonify({"message": "Data imported successfully!"}), 200
-
-        except requests.HTTPError as http_err:
-            return jsonify({"error": f"HTTP error occurred: {http_err}"}), 400
-        except Exception as err:
-            return jsonify({"error": f"An error occurred: {err}"}), 400
+   
