@@ -1,6 +1,7 @@
 import xml.etree.ElementTree as ET
 from datetime import datetime
 import requests
+import os
 
 
 class XmlHandler:
@@ -80,9 +81,19 @@ class XmlHandler:
                 if response.status_code == 200:
                     # Specify the local file path for saving
                     local_file_path = "C:/CAMT"
-                    with open(local_file_path, "wb") as local_file:
+                    local_file_name = f"sample_camt053_{timestamp}.xml"
+                    local_file_full_path = os.path.join(
+                        local_file_path, local_file_name
+                    )
+                    with open(local_file_full_path, "wb") as local_file:
                         local_file.write(response.content)
-                    print(f"File downloaded and saved locally to {local_file_path}")
-
-
-# Usage
+                    print(
+                        f"File downloaded and saved locally to {local_file_full_path}"
+                    )
+                    return True  # File created and downloaded successfully
+                else:
+                    print("Failed to download the file.")
+                    return False
+            else:
+                print("Failed to upload the file.")
+                return False

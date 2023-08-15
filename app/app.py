@@ -125,8 +125,14 @@ def import_data_xml():
 def export_camt():
     data = db.get_data_raw()
     file_io_api_key = current_app.config["FILE_IO_API_KEY"]
-    return XmlHandler.create_sample_camt053_data(data["data_raw"], file_io_api_key)
-    # return jsonify({"message": "Camt data created successfully!"}), 200
+    file_created = XmlHandler.create_sample_camt053_data(
+        data["data_raw"], file_io_api_key
+    )
+
+    if file_created:
+        return jsonify({"message": "Camt data created successfully!"}), 200
+    else:
+        return jsonify({"message": "Failed to create Camt data."}), 500
 
 
 def import_data_from_api_to_db(data, table_name):
