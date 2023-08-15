@@ -143,5 +143,9 @@ class BankDatabase:
                                 self.connection.commit()
 
             return jsonify({"message": "Data imported successfully!"}), 200
+        except FileNotFoundError as file_err:
+            return jsonify({"message": f"File not found: {str(file_err)}"}), 404
+        except ET.ParseError as parse_err:
+            return jsonify({"message": f"XML parse error: {str(parse_err)}"}), 400
         except Exception as e:
-            return jsonify({"message": f"Failed to import data: {str(e)}"}), 500
+            return jsonify({"message": f"An unexpected error occurred: {str(e)}"}), 500
