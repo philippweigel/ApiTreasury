@@ -13,6 +13,7 @@ def load_configurations(app):
     app.config["DATABASE_PASSWORD"] = os.getenv("DATABASE_PASSWORD")
     app.config["DATABASE_HOST"] = os.getenv("DATABASE_HOST")
     app.config["DATABASE_PORT"] = int(os.getenv("DATABASE_PORT"))
+    app.config["FILE_IO_API_KEY"] = os.getenv("FILE_IO_API_KEY")
 
 
 app = Flask(__name__)
