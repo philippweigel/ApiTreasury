@@ -96,11 +96,11 @@ class BankDatabase:
             os.makedirs(processed_dir)
 
         # Iterating through every file in the directory
-        for filename in os.listdir("C:/CAMT/"):
+        for filename in os.listdir(camt_dir):
             if not filename.endswith(".xml"):  # Skip non-XML files
                 continue
 
-            filepath = os.path.join("C:/CAMT/", filename)  # Create full file path
+            filepath = os.path.join(camt_dir, filename)  # Create full file path
 
             # Open the CAMT053 XML file
             tree = ET.parse(filepath)
