@@ -72,7 +72,17 @@ class XmlHandler:
                 "https://file.io", files={"file": file}, headers=headers
             )
             if response.status_code == 200:
-                return f"File uploaded successfully. Download link: {response.json()['link']}"
+                download_link = response.json()["link"]
+                print(f"File uploaded successfully. Download link: {download_link}")
+
+                # Download the CAMT053 XML file from the provided download link
+                response = requests.get(download_link)
+                if response.status_code == 200:
+                    # Specify the local file path for saving
+                    local_file_path = "C:/CAMT"
+                    with open(local_file_path, "wb") as local_file:
+                        local_file.write(response.content)
+                    print(f"File downloaded and saved locally to {local_file_path}")
 
 
 # Usage
