@@ -83,18 +83,24 @@ class BankDatabase:
         return {"data_raw": data_raw}
 
     def import_transactions_from_camt053(self):
-        processed_dir = "data/processed/"
+        camt_dir = "C:/CAMT/"
+
+        # Create processed directory if it does not exist
+        if not os.path.exists(camt_dir):
+            os.makedirs(camt_dir)
+
+        processed_dir = "C:/CAMT/processed/"
 
         # Create processed directory if it does not exist
         if not os.path.exists(processed_dir):
             os.makedirs(processed_dir)
 
         # Iterating through every file in the directory
-        for filename in os.listdir("data/"):
+        for filename in os.listdir("C:/CAMT/"):
             if not filename.endswith(".xml"):  # Skip non-XML files
                 continue
 
-            filepath = os.path.join("data/", filename)  # Create full file path
+            filepath = os.path.join("C:/CAMT/", filename)  # Create full file path
 
             # Open the CAMT053 XML file
             tree = ET.parse(filepath)

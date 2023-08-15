@@ -64,7 +64,6 @@ class XmlHandler:
 
         # Save XML data to a file
         tree = ET.ElementTree(root)
-        tree.write(file_name)
 
         # Upload the file to file.io
         with open(file_name, "rb") as file:
