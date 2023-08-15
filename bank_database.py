@@ -83,62 +83,65 @@ class BankDatabase:
         return {"data_raw": data_raw}
 
     def import_transactions_from_camt053(self):
-        camt_dir = "C:/CAMT/"
+        try:
+            camt_dir = "C:/CAMT/"
 
-        # Create processed directory if it does not exist
-        if not os.path.exists(camt_dir):
-            os.makedirs(camt_dir)
+            # Create processed directory if it does not exist
+            if not os.path.exists(camt_dir):
+                os.makedirs(camt_dir)
 
-        processed_dir = "C:/CAMT/processed/"
+            processed_dir = "C:/CAMT/processed/"
 
-        # Create processed directory if it does not exist
-        if not os.path.exists(processed_dir):
-            os.makedirs(processed_dir)
+            # Create processed directory if it does not exist
+            if not os.path.exists(processed_dir):
+                os.makedirs(processed_dir)
 
-        # Iterating through every file in the directory
-        for filename in os.listdir(camt_dir):
-            if not filename.endswith(".xml"):  # Skip non-XML files
-                continue
+            # Iterating through every file in the directory
+            for filename in os.listdir(camt_dir):
+                if not filename.endswith(".xml"):  # Skip non-XML files
+                    continue
 
-            filepath = os.path.join(camt_dir, filename)  # Create full file path
+                filepath = os.path.join(camt_dir, filename)  # Create full file path
 
-            # Open the CAMT053 XML file
-            tree = ET.parse(filepath)
-            root = tree.getroot()
+                # Open the CAMT053 XML file
+                tree = ET.parse(filepath)
+                root = tree.getroot()
 
-            ns = {"ns": "urn:iso:std:iso:20022:tech:xsd:camt.053.001.02"}
+                ns = {"ns": "urn:iso:std:iso:20022:tech:xsd:camt.053.001.02"}
 
-            # Iterate through the statements in the XML file
-            for stmt in root.findall(".//ns:Stmt", ns):
-                statement_id = stmt.find(".//ns:Id", ns).text
-                creation_date_time = stmt.find(".//ns:CreDtTm", ns).text
+                # Iterate through the statements in the XML file
+                for stmt in root.findall(".//ns:Stmt", ns):
+                    statement_id = stmt.find(".//ns:Id", ns).text
+                    creation_date_time = stmt.find(".//ns:CreDtTm", ns).text
 
-                # Iterate through the transactions for this statement
-                for ntry in stmt.findall(".//ns:Ntry", ns):
-                    entry_amount = ntry.find("ns:Amt", ns).text
-                    currency = ntry.find("ns:Amt", ns).attrib["Ccy"]
-                    credit_debit_indicator = ntry.find("ns:CdtDbtInd", ns).text
-                    account_service_ref = ntry.find(".//ns:Refs", ns).attrib[
-                        "AcctSvcrRef"
-                    ]
+                    # Iterate through the transactions for this statement
+                    for ntry in stmt.findall(".//ns:Ntry", ns):
+                        entry_amount = ntry.find("ns:Amt", ns).text
+                        currency = ntry.find("ns:Amt", ns).attrib["Ccy"]
+                        credit_debit_indicator = ntry.find("ns:CdtDbtInd", ns).text
+                        account_service_ref = ntry.find(".//ns:Refs", ns).attrib[
+                            "AcctSvcrRef"
+                        ]
 
-                    # Insert the transaction into the database
-                    with self.connection:
-                        with self.connection.cursor() as cursor:
-                            cursor.execute(
-                                """
-                                INSERT INTO transactions_xml (statement_id, creation_date_time, entry_amount, credit_debit_indicator, account_service_ref, currency)
-                                VALUES (%s, %s, %s, %s, %s, %s)
-                                """,
-                                (
-                                    statement_id,
-                                    creation_date_time,
-                                    entry_amount,
-                                    credit_debit_indicator,
-                                    account_service_ref,
-                                    currency,
-                                ),
-                            )
-                            self.connection.commit()
+                        # Insert the transaction into the database
+                        with self.connection:
+                            with self.connection.cursor() as cursor:
+                                cursor.execute(
+                                    """
+                                    INSERT INTO transactions_xml (statement_id, creation_date_time, entry_amount, credit_debit_indicator, account_service_ref, currency)
+                                    VALUES (%s, %s, %s, %s, %s, %s)
+                                    """,
+                                    (
+                                        statement_id,
+                                        creation_date_time,
+                                        entry_amount,
+                                        credit_debit_indicator,
+                                        account_service_ref,
+                                        currency,
+                                    ),
+                                )
+                                self.connection.commit()
 
-        return jsonify({"message": "Data imported successfully!"}), 200
+            return jsonify({"message": "Data imported successfully!"}), 200
+        except Exception as e:
+            return jsonify({"message": f"Failed to import data: {str(e)}"}), 500
