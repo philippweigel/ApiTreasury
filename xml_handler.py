@@ -1,12 +1,14 @@
 import xml.etree.ElementTree as ET
 from datetime import datetime
+from pydrive.auth import GoogleAuth
+from pydrive.drive import GoogleDrive
 
 
 class XmlHandler:
     def __init__(self) -> None:
         pass
 
-    def create_sample_camt053_data(data_list):
+    def create_sample_camt053_data(data_list, folder_id):
         # Root element
         root = ET.Element(
             "Document", xmlns="urn:iso:std:iso:20022:tech:xsd:camt.053.001.02"
@@ -60,7 +62,16 @@ class XmlHandler:
         # Creating the file name with the timestamp
         file_name = f"data/sample_camt053_{timestamp}.xml"
 
-        with open(file_name, "wb") as file:
-            tree.write(file)
+        # Save XML data to a file
+        tree = ET.ElementTree(root)
+        tree.write(file_name)
 
+        # Authenticate with Google Drive
+        gauth = GoogleAuth()
+        gauth.LocalWebserverAuth()  # Follow the prompts to authenticate
+        drive = GoogleDrive(gauth)
 
+        # Upload the file to the specified folder
+        file = drive.CreateFile({"title": file_name, "parents": [{"id": folder_id}]})
+        file.SetContentFile(file_name)
+        file.Upload()

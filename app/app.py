@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, current_app
 from bank_database import BankDatabase
 import os
 from dotenv import load_dotenv
@@ -13,6 +13,7 @@ def load_configurations(app):
     app.config["DATABASE_PASSWORD"] = os.getenv("DATABASE_PASSWORD")
     app.config["DATABASE_HOST"] = os.getenv("DATABASE_HOST")
     app.config["DATABASE_PORT"] = int(os.getenv("DATABASE_PORT"))
+    app.config["GOOGLE_DRIVE_FOLDER_ID"] = os.getenv("GOOGLE_DRIVE_FOLDER_ID")
 
 
 app = Flask(__name__)
@@ -123,7 +124,8 @@ def import_data_xml():
 @app.route("/export-camt")
 def export_camt():
     data = db.get_data_raw()
-    XmlHandler.create_sample_camt053_data(data["data_raw"])
+    folder_id = current_app.config["DATABASE_PORT"]
+    XmlHandler.create_sample_camt053_data(data["data_raw"], folder_id)
     return jsonify({"message": "Camt data created successfully!"}), 200
 
 
