@@ -13,7 +13,6 @@ def load_configurations(app):
     app.config["DATABASE_PASSWORD"] = os.getenv("DATABASE_PASSWORD")
     app.config["DATABASE_HOST"] = os.getenv("DATABASE_HOST")
     app.config["DATABASE_PORT"] = int(os.getenv("DATABASE_PORT"))
-    app.config["GOOGLE_DRIVE_FOLDER_ID"] = os.getenv("GOOGLE_DRIVE_FOLDER_ID")
 
 
 app = Flask(__name__)
@@ -121,12 +120,11 @@ def import_data_xml():
     return db.import_transactions_from_camt053()
 
 
-@app.route("/export-camt")
+@app.route("/export-camt", methods=["POST"])
 def export_camt():
     data = db.get_data_raw()
-    folder_id = current_app.config["DATABASE_PORT"]
-    XmlHandler.create_sample_camt053_data(data["data_raw"], folder_id)
-    return jsonify({"message": "Camt data created successfully!"}), 200
+    return XmlHandler.create_sample_camt053_data(data["data_raw"])
+    # return jsonify({"message": "Camt data created successfully!"}), 200
 
 
 def import_data_from_api_to_db(data, table_name):
