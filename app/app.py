@@ -117,9 +117,14 @@ def import_data_api():
 
 @app.route("/import-data-xml")
 def import_data_xml():
-    data = db.get_data_raw()
-    #XmlHandler.create_sample_camt053_data(data["data_raw"])
     return db.import_transactions_from_camt053()
+
+
+@app.route("/export-camt")
+def export_camt():
+    data = db.get_data_raw()
+    XmlHandler.create_sample_camt053_data(data["data_raw"])
+    return jsonify({"message": "Camt data created successfully!"}), 200
 
 
 def import_data_from_api_to_db(data, table_name):
