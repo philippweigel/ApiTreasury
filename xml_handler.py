@@ -75,30 +75,7 @@ class XmlHandler:
             if response.status_code == 200:
                 download_link = response.json()["link"]
                 print(f"File uploaded successfully. Download link: {download_link}")
-
-                # Download the CAMT053 XML file from the provided download link
-                response = requests.get(download_link)
-                if response.status_code == 200:
-                    # Specify the local file path for saving
-                    local_file_path = "C:/CAMT"
-                    local_file_name = f"sample_camt053_{timestamp}.xml"
-                    local_file_full_path = os.path.join(
-                        local_file_path, local_file_name
-                    )
-
-                    # Ensure the directory exists or create it
-                    if not os.path.exists(local_file_path):
-                        os.makedirs(local_file_path)
-
-                    with open(local_file_full_path, "wb") as local_file:
-                        local_file.write(response.content)
-                    print(
-                        f"File downloaded and saved locally to {local_file_full_path}"
-                    )
-                    return True  # File created and downloaded successfully
-                else:
-                    print("Failed to download the file.")
-                    return False
+                return download_link
             else:
                 print("Failed to upload the file.")
-                return False
+                return None
