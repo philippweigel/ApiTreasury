@@ -135,11 +135,11 @@ class BankDatabase:
                             )
                             self.connection.commit()
 
-            # Print file paths for debugging
-            print(
-                f"Moving file from {filepath} to {os.path.join(processed_dir, filename)}"
-            )
-            # Move the processed XML file to the processed directory
-            shutil.move(filepath, os.path.join(processed_dir, filename))
+            # # Print file paths for debugging
+            # print(
+            #     f"Moving file from {filepath} to {os.path.join(processed_dir, filename)}"
+            # )
+            # # Move the processed XML file to the processed directory
+            # shutil.move(filepath, os.path.join(processed_dir, filename))
 
         return jsonify({"message": "Data imported successfully!"}), 200

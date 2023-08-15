@@ -24,31 +24,6 @@ with app.app_context():
     db.initialize()
 
 
-# Statements related routes and functions
-@app.route("/statements")
-def get_statements():
-    statements = db.execute_query("SELECT * FROM statements")
-    return jsonify({"statements": statements})
-
-
-@app.route("/statements/<int:id>")
-def get_statements_by_id(id):
-    query = "SELECT * FROM statements WHERE id = %s"  # Use %s as a placeholder for the parameter
-    statement = db.execute_query(query, (id,), fetchone=True)
-
-    if statement:
-        return jsonify({"statement": statement})
-    else:
-        return jsonify({"message": "Statement not found"}), 404
-
-
-# Transactions related routes and functions
-@app.route("/transactions")
-def get_transactions():
-    transactions = db.execute_query("SELECT * FROM transactions")
-    return jsonify({"transactions": transactions})
-
-
 # Transactions related routes and functions
 @app.route("/transactions-api")
 def get_transactions_api():
