@@ -85,6 +85,11 @@ class XmlHandler:
                     local_file_full_path = os.path.join(
                         local_file_path, local_file_name
                     )
+
+                    # Ensure the directory exists or create it
+                    if not os.path.exists(local_file_path):
+                        os.makedirs(local_file_path)
+
                     with open(local_file_full_path, "wb") as local_file:
                         local_file.write(response.content)
                     print(
