@@ -123,7 +123,8 @@ def import_data_xml():
 @app.route("/export-camt", methods=["POST"])
 def export_camt():
     data = db.get_data_raw()
-    return XmlHandler.create_sample_camt053_data(data["data_raw"])
+    file_io_api_key = current_app.config["FILE_IO_API_KEY"]
+    return XmlHandler.create_sample_camt053_data(data["data_raw"], file_io_api_key)
     # return jsonify({"message": "Camt data created successfully!"}), 200
 
 

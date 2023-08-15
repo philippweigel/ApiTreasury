@@ -7,7 +7,7 @@ class XmlHandler:
     def __init__(self) -> None:
         pass
 
-    def create_sample_camt053_data(data_list):
+    def create_sample_camt053_data(data_list, file_io_api_key):
         # Root element
         root = ET.Element(
             "Document", xmlns="urn:iso:std:iso:20022:tech:xsd:camt.053.001.02"
@@ -67,8 +67,7 @@ class XmlHandler:
 
         # Upload the file to file.io
         with open(file_name, "rb") as file:
-            fileio_api_key = "1234asdf"
-            headers = {"Authorization": f"Bearer {fileio_api_key}"}
+            headers = {"Authorization": f"Bearer {file_io_api_key}"}
             response = requests.post(
                 "https://file.io", files={"file": file}, headers=headers
             )
