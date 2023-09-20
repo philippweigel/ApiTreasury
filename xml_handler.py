@@ -65,16 +65,28 @@ class XmlHandler:
         # Save XML data to a file
         tree = ET.ElementTree(root)
 
-        # Upload the file to file.io
-        with open(file_name, "rb") as file:
-            headers = {"Authorization": f"Bearer {file_io_api_key}"}
-            response = requests.post(
-                "https://file.io", files={"file": file}, headers=headers
-            )
-            if response.status_code == 200:
-                download_link = response.json()["link"]
-                print(f"File uploaded successfully. Download link: {download_link}")
-                return download_link
-            else:
-                print("Failed to upload the file.")
-                return None
+        # # Upload the file to file.io
+        # with open(file_name, "rb") as file:
+        #     headers = {"Authorization": f"Bearer {file_io_api_key}"}
+        #     response = requests.post(
+        #         "https://file.io", files={"file": file}, headers=headers
+        #     )
+        #     if response.status_code == 200:
+        #         download_link = response.json()["link"]
+        #         print(f"File uploaded successfully. Download link: {download_link}")
+        #         return download_link
+        #     else:
+        #         print("Failed to upload the file.")
+        #         return None
+
+        headers = {"Authorization": f"Bearer {file_io_api_key}"}
+        response = requests.post(
+            "https://file.io", files={"file": tree}, headers=headers
+        )
+        if response.status_code == 200:
+            download_link = response.json()["link"]
+            print(f"File uploaded successfully. Download link: {download_link}")
+            return download_link
+        else:
+            print("Failed to upload the file.")
+            return None
