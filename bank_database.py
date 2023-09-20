@@ -84,13 +84,15 @@ class BankDatabase:
 
     def import_transactions_from_camt053(self):
         try:
-            camt_dir = "C:/CAMT/"
+            # camt_dir = "C:/CAMT/"
+            camt_dir = "./CAMT/"
 
             # Create processed directory if it does not exist
             if not os.path.exists(camt_dir):
                 os.makedirs(camt_dir)
 
-            processed_dir = "C:/CAMT/processed/"
+            # processed_dir = "C:/CAMT/processed/"
+            processed_dir = "./CAMT/processed/"
 
             # Create processed directory if it does not exist
             if not os.path.exists(processed_dir):
