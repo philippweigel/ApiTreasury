@@ -157,7 +157,7 @@ class BankDatabase:
             # Sample data
             sample_data = [
                 {
-                    "statement_id": "SAMPLE1234",
+                    "statement_id": "SAMPLE12",
                     "creation_date_time": "2023-09-19T14:07:47",
                     "transactions": [
                         {
