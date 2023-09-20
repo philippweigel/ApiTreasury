@@ -60,7 +60,7 @@ class XmlHandler:
         timestamp = datetime.now().strftime("%Y%m%d%H%M%S")
 
         # Creating the file name with the timestamp
-        file_name = f"data/camt053_{timestamp}.xml"
+        file_name = f"camt053_{timestamp}.xml"
 
         # Save XML data to a file
         tree = ET.ElementTree(root)
