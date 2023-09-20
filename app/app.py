@@ -203,8 +203,4 @@ def import_data_from_api_to_db(data, table_name):
 
 
 if __name__ == "__main__":
-    # with app.app_context():
-    #     db = BankDatabase()
-    #     db.initialize()
-
     app.run(debug=False)
