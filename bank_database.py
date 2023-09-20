@@ -151,3 +151,58 @@ class BankDatabase:
             return f"XML parse error: {str(parse_err)}", 400
         except Exception as e:
             return f"An unexpected error occurred: {str(e)}", 500
+
+    def import_transactions_from_camt053_sample(self):
+        try:
+            # Sample data
+            sample_data = [
+                {
+                    "statement_id": "SAMPLE1234",
+                    "creation_date_time": "2023-09-19T14:07:47",
+                    "transactions": [
+                        {
+                            "entry_amount": "100.00",
+                            "currency": "USD",
+                            "credit_debit_indicator": "credit",
+                            "account_service_ref": "REF001",
+                        },
+                        # ... you can add more sample transactions as needed ...
+                    ],
+                },
+                # ... you can add more sample statements as needed ...
+            ]
+
+            # Process the sample data
+            for data in sample_data:
+                statement_id = data["statement_id"]
+                creation_date_time = data["creation_date_time"]
+
+                for transaction in data["transactions"]:
+                    entry_amount = transaction["entry_amount"]
+                    currency = transaction["currency"]
+                    credit_debit_indicator = transaction["credit_debit_indicator"]
+                    account_service_ref = transaction["account_service_ref"]
+
+                    # Insert the transaction into the database
+                    with self.connection:
+                        with self.connection.cursor() as cursor:
+                            cursor.execute(
+                                """
+                                INSERT INTO transactions_xml (statement_id, creation_date_time, entry_amount, credit_debit_indicator, account_service_ref, currency)
+                                VALUES (%s, %s, %s, %s, %s, %s)
+                                """,
+                                (
+                                    statement_id,
+                                    creation_date_time,
+                                    entry_amount,
+                                    credit_debit_indicator,
+                                    account_service_ref,
+                                    currency,
+                                ),
+                            )
+                            self.connection.commit()
+
+            return "Sample data imported successfully!", 200
+
+        except Exception as e:
+            return f"An unexpected error occurred: {str(e)}", 500
