@@ -118,8 +118,7 @@ def import_data_api():
 
 @app.route("/import-data-xml")
 def import_data_xml():
-    # result, status_code = db.import_transactions_from_camt053()
-    result, status_code = db.import_transactions_from_camt053_sample()
+    result, status_code = db.import_transactions_from_camt053()
     return jsonify({"message": result}), status_code
 
 
